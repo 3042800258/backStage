@@ -1,21 +1,13 @@
-<template>
-  <div id="app">
-    <myLogin></myLogin>
-  </div>
+<template name="App">
+  <router-view></router-view>
 </template>
 
 <script>
-import myLogin from '@/components/myLogin.vue'
+
 export default {
-  name: 'App',
-  components: {
-    myLogin
-  }
+  name: 'App'
 }
 </script>
 
-<style lang="less">
-  html {
-    background: #333;
-  }
+<style lang="less" scoped>
 </style>

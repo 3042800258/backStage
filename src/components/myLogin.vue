@@ -1,74 +1,124 @@
 <template name="myLogin">
   <div id="login">
-      <div id="login">
     <div class="login_box">
       <div class="login_name_box">
-        <span>登录名称：</span
-        ><input type="text" placeholder=" 请输入登录名称" />
+        <span class="login_text">账户：</span>
+        <input
+          type="text"
+          ref="inp1"
+          placeholder=" 请输入账号"
+          v-model.trim="user_name"
+        />
       </div>
       <div class="login_password_box">
-        <span>登录密码：</span
-        ><input type="text" placeholder=" 请输入登录密码" />
+        <span class="login_text">密码：</span>
+        <input
+          type="password"
+          ref="inp2"
+          placeholder=" 请输入密码"
+          v-model.trim="user_password"
+        />
       </div>
       <div class="re_log_btn">
-        <button class="reset_btn">重置</button>
-        <button class="login_btn">登录</button>
+        <div><button class="reset_btn" @click="reset_fun">重置</button></div>
+        <div><button class="login_btn" @click="login_fun">登录</button></div>
       </div>
     </div>
-  </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'myLogin'
+  name: 'myLogin',
+  data() {
+    return {
+      user_name: 'admin',
+      user_password: '666666'
+    }
+  },
+  methods: {
+    reset_fun() {
+      this.user_name = ''
+      this.user_password = ''
+      const borderStyle = '2px solid #ccc'
+      this.$refs.inp1.style.border = borderStyle
+      this.$refs.inp2.style.border = borderStyle
+    },
+    login_fun() {
+      if (this.user_name === 'admin' && this.user_password === '666666') {
+        localStorage.setItem('token', 'Bearer xxx')
+        this.$router.push('/home')
+      } else {
+        this.input_err()
+        alert('账号或密码错误!')
+        localStorage.removeItem('token')
+      }
+    },
+    input_err() {
+      const borderStyle = '2px solid red'
+      this.$refs.inp1.style.border = borderStyle
+      this.$refs.inp2.style.border = borderStyle
+    }
+  }
 }
 </script>
 
 <style lang="less" scoped>
+@font_color: #fff;
 #login {
-    height: 100%;
-    background-color: #333;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  background-image: url("https://sqimg.qq.com/mapp/im_qq_com/pc_bg.jpg");
 }
 .login_box {
-  width: 440px;
-  height: 300px;
-  margin-left: 50%;
-  margin-top: 300px;
-  transform: translateX(-50%);
-  border: 1px solid #ccc;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  // width: 4.4rem;
+  width: 12rem;
+  height: 6rem;
+  border: 1px solid @font_color;
   background-image: linear-gradient(
     to right,
     rgb(255, 0, 200),
     rgb(22, 153, 240)
   );
-  input {
-    width: 160px;
-    outline: none;
-    border: 1px solid #ccc;
+  .login_password_box {
+    margin-top: 0.2rem;
   }
   .re_log_btn {
-    float: right;
-    margin: 30px 60px 0 0;
-    color: #fff;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 188px;
+    padding-left: 48px;
+    margin-top: 0.2rem;
+    color: @font_color;
     .reset_btn {
-      margin-right: 20px;
+      width: 44px;
       background: rgb(196, 48, 48);
     }
     .login_btn {
-      margin-right: 50px;
+      width: 44px;
       background: rgb(19, 171, 218);
     }
   }
-}
-.login_box {
-  padding-top: 50px;
-}
-.login_name_box,
-.login_password_box {
-  width: 240px;
-  margin-top: 20px;
-  margin-left: 50%;
-  transform: translateX(-50%);
+  .login_text {
+    color: @font_color;
+    font-size: 16px;
+  }
+  input {
+    width: 140px;
+    outline: none;
+    border: 1px solid #ccc;
+  }
 }
 </style>
